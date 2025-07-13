@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: "postgres_db"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pg_db
+      - POSTGRES_PORT=5432
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/pgdata
+      # - /mnt/c/users/aikru/Documents/MIPT/DB:/var/lib/pgadmin/storage/
+    ports:
+      - "5432:5432"
+    restart: always
+#    env_file: # для хранения secrets правильнее использовать .env-файл
+#      - .env
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: "pgadmin"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+      - PGADMIN_DEFAULT_PASSWORD=root
+    volumes:
+      - data_pgadmin:/var/lib/pgadmin
+      # - C:/Users/aikru/Documents/MIPT/DB/homework/raw-csv-data:/raw-csv-data/
+      # - '/root:/fin:rw'
+      # - /mnt/c/users/aikru/Documents/MIPT/DB:/var/lib/pgadmin/storage/
+    ports:
+      - "8080:80"
+
+volumes:
+  postgres_data:
+    # - /mnt/c/users/aikru/Documents/MIPT/DB:/var/lib/pgadmin/storage/:/mnt/c/users/aikru/Documents/MIPT/DB:/var/lib/pgadmin/storage/
+  data_pgadmin:
+    # - /mnt/c/users/aikru/Documents/MIPT/DB:/var/lib/pgadmin/storage/:/mnt/c/users/aikru/Documents/MIPT/DB:/var/lib/pgadmin/storage/
